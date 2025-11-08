@@ -1,31 +1,45 @@
 const STEPS = [
-  { title: "Add a resume pdf", text: "or create from scratch" },
-  { title: "Preview design", text: "and make edits" },
-  { title: "Download new resume", text: "and apply with confidence" },
+  { title: "Import or Start Fresh", text: "Upload your existing resume to extract information automatically, or begin building from scratch with our guided interface." },
+  { title: "Customize and Edit", text: "Preview your design in real-time and make instant adjustments. See exactly what recruiters will see as you build." },
+  { title: "Download and Apply", text: "Export your ATS-optimized resume as a PDF and start applying to your dream roles with confidence." },
 ];
 
 export const Steps = () => {
   return (
-    <section className="mx-auto mt-8 rounded-2xl bg-sky-50 bg-dot px-8 pb-12 pt-10 lg:mt-2">
-      <h1 className="text-center text-3xl font-bold">3 Simple Steps</h1>
-      <div className="mt-8 flex justify-center">
-        <dl className="flex flex-col gap-y-10 lg:flex-row lg:justify-center lg:gap-x-20">
-          {STEPS.map(({ title, text }, idx) => (
-            <div className="relative self-start pl-14" key={idx}>
-              <dt className="text-lg font-bold">
-                <div className="bg-primary absolute left-0 top-1 flex h-10 w-10 select-none items-center justify-center rounded-full p-[3.5px] opacity-80">
-                  <div className="flex h-full w-full items-center justify-center rounded-full bg-white">
-                    <div className="text-primary -mt-0.5 text-2xl">
+    <section className="py-16 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Create your professional resume in three simple steps
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+
+          </p>
+        </div>
+        <div className="mt-16">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {STEPS.map(({ title, text }, idx) => (
+              <div key={idx} className="relative">
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary bg-primary/10">
+                    <span className="text-2xl font-bold text-primary">
                       {idx + 1}
-                    </div>
+                    </span>
                   </div>
+                  <h3 className="mt-6 text-xl font-semibold text-foreground">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-base text-muted-foreground">
+                    {text}
+                  </p>
                 </div>
-                {title}
-              </dt>
-              <dd>{text}</dd>
-            </div>
-          ))}
-        </dl>
+                {idx < STEPS.length - 1 && (
+                  <div className="absolute left-1/2 top-8 hidden h-0.5 w-full bg-border md:block" aria-hidden="true" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

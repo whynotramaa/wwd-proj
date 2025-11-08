@@ -20,7 +20,7 @@ export const Heading = ({
   return (
     <Component
       className={cx(
-        "mt-[2em] text-gray-900",
+        "mt-[2em] text-foreground",
         HEADING_CLASSNAMES[level],
         className
       )}

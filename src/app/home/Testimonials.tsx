@@ -11,23 +11,23 @@ const TESTIMONIALS = [
   {
     src: testimonialSpiegelSrc,
     quote:
-      "Students often make silly mistakes on their resume by using inconsistent bullet points or font sizes. OpenResume’s auto format feature is a great help to ensure consistent format.",
-    name: "Ms. Spiegel",
-    title: "Educator",
+      "Many students make avoidable mistakes on their resumes—inconsistent formatting, mismatched fonts. Project 0's auto-format feature ensures everything looks polished and professional.",
+    name: "Ms. Kapoor",
+    title: "Career Counselor",
   },
   {
     src: testimonialSantiSrc,
     quote:
-      "I used OpenResume during my last job search and was invited to interview at top tech companies such as Google and Amazon thanks to its slick yet professional resume design.",
-    name: "Santi",
-    title: "Software Engineer",
+      "I used Project 0 for my campus placements and received interview calls from companies like TCS, Infosys, and Flipkart. The clean design made all the difference.",
+    name: "Rahul",
+    title: "Engineering Graduate",
   },
   {
     src: testimonialVivianSrc,
     quote:
-      "Creating a professional resume on OpenResume is so smooth and easy! It saves me so much time and headache to not deal with google doc template.",
-    name: "Vivian",
-    title: "College Student",
+      "Building a professional resume on Project 0 is incredibly smooth! It saved me hours of struggling with Word templates and formatting nightmares.",
+    name: "Priya",
+    title: "MBA Student",
   },
 ];
 
@@ -63,20 +63,25 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
   }, [isLg]);
 
   return (
-    <section className="mx-auto -mt-2 px-8 pb-24">
-      <h2 className="mb-8 text-center text-3xl font-bold">
-        People{" "}
-        <Image src={heartSrc} alt="love" className="-mt-1 inline-block w-7" />{" "}
-        OpenResume
-      </h2>
-      <div className="mx-auto mt-10 h-[235px] max-w-lg lg:h-[400px] lg:pt-28">
+    <section className="py-16 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Trusted by job seekers across India
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+
+          </p>
+        </div>
+      </div>
+      <div className="mx-auto mt-10 h-[235px] max-w-lg px-8 lg:h-[400px] lg:pt-28">
         <div className="relative lg:ml-[-50px]">
           {TESTIMONIALS.map(({ src, quote, name, title }, idx) => {
             const className = testimonialsClassNames[idx];
             return (
               <div
                 key={idx}
-                className={`bg-primary absolute max-w-lg rounded-[1.7rem] bg-opacity-30 shadow-md transition-all duration-1000 ease-linear ${className}`}
+                className={`absolute max-w-lg rounded-[1.7rem] bg-primary/20 shadow-lg transition-all duration-1000 ease-linear ${className}`}
                 onMouseEnter={() => {
                   if (className === "z-10") {
                     isHoveredOnTestimonial.current = true;
@@ -88,7 +93,7 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
                   }
                 }}
               >
-                <figure className="m-1 flex gap-5 rounded-3xl bg-white p-5 text-gray-900 lg:p-7">
+                <figure className="m-1 flex gap-5 rounded-3xl border border-border bg-card p-5 text-card-foreground lg:p-7">
                   <Image
                     className="hidden h-24 w-24 select-none rounded-full lg:block"
                     src={src}
@@ -96,20 +101,20 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
                   />
                   <div>
                     <blockquote>
-                      <p className="before:content-['“'] after:content-['”']">
+                      <p className="text-foreground before:content-['\201C'] after:content-['\201D']">
                         {quote}
                       </p>
                     </blockquote>
                     <figcaption className="mt-3">
                       <div className="hidden gap-2 lg:flex">
-                        <div className="font-semibold">{name}</div>
+                        <div className="font-semibold text-foreground">{name}</div>
                         <div
-                          className="select-none text-gray-700"
+                          className="select-none text-muted-foreground"
                           aria-hidden="true"
                         >
                           •
                         </div>
-                        <div className="text-gray-600">{title}</div>
+                        <div className="text-muted-foreground">{title}</div>
                       </div>
                       <div className="flex gap-4 lg:hidden">
                         <Image
@@ -118,8 +123,8 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
                           alt="profile"
                         />
                         <div>
-                          <div className="font-semibold">{name}</div>
-                          <div className="text-gray-600">{title}</div>
+                          <div className="font-semibold text-foreground">{name}</div>
+                          <div className="text-muted-foreground">{title}</div>
                         </div>
                       </div>
                     </figcaption>

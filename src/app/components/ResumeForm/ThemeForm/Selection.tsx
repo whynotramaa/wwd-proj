@@ -30,7 +30,7 @@ const Selection = ({
 
   return (
     <div
-      className="flex w-[105px] cursor-pointer items-center justify-center rounded-md border border-gray-300 py-1.5 shadow-sm hover:border-gray-400 hover:bg-gray-100"
+      className="flex w-[105px] cursor-pointer items-center justify-center rounded-md border border-border py-1.5 shadow-sm hover:border-ring/50 hover:bg-accent transition-colors"
       onClick={onClick}
       style={isSelected ? selectedStyle : style}
       onKeyDown={(e) => {
@@ -153,6 +153,41 @@ export const DocumentSizeSelections = ({
               <div>{type}</div>
               <div className="text-xs">
                 {type === "Letter" ? "(US, Canada)" : "(other countries)"}
+              </div>
+            </div>
+          </Selection>
+        );
+      })}
+    </SelectionsWrapper>
+  );
+};
+
+export const ResumeTemplateSelections = ({
+  selectedTemplate,
+  themeColor,
+  handleSettingsChange,
+}: {
+  themeColor: string;
+  selectedTemplate: string;
+  handleSettingsChange: (field: GeneralSetting, value: string) => void;
+}) => {
+  return (
+    <SelectionsWrapper>
+      {[
+        { value: "default", label: "Default" },
+        { value: "custom", label: "Custom" }
+      ].map((template, idx) => {
+        return (
+          <Selection
+            key={idx}
+            selectedColor={themeColor}
+            isSelected={template.value === selectedTemplate}
+            onClick={() => handleSettingsChange("resumeTemplate", template.value)}
+          >
+            <div className="flex flex-col items-center">
+              <div>{template.label}</div>
+              <div className="text-xs">
+                {template.value === "default" ? "(Standard Layout)" : "(Centered Header)"}
               </div>
             </div>
           </Selection>

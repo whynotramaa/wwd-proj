@@ -16,11 +16,11 @@ export default function ImportResume() {
   }, []);
 
   return (
-    <main>
-      <div className="mx-auto mt-14 max-w-3xl rounded-md border border-gray-200 px-10 py-10 text-center shadow-md">
+    <main className="min-h-[calc(100vh-var(--top-nav-bar-height))] bg-background py-16">
+      <div className="mx-auto mt-14 max-w-3xl rounded-lg border border-border bg-card px-10 py-10 text-center shadow-lg">
         {!hasUsedAppBefore ? (
           <>
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-foreground">
               Import data from an existing resume
             </h1>
             <ResumeDropzone
@@ -48,7 +48,7 @@ export default function ImportResume() {
                 <OrDivider />
               </>
             )}
-            <h1 className="font-semibold text-gray-900">
+            <h1 className="font-semibold text-foreground">
               Override data with a new resume
             </h1>
             <ResumeDropzone
@@ -64,9 +64,9 @@ export default function ImportResume() {
 
 const OrDivider = () => (
   <div className="mx-[-2.5rem] flex items-center pb-6 pt-8" aria-hidden="true">
-    <div className="flex-grow border-t border-gray-200" />
-    <span className="mx-2 mt-[-2px] flex-shrink text-lg text-gray-400">or</span>
-    <div className="flex-grow border-t border-gray-200" />
+    <div className="flex-grow border-t border-border" />
+    <span className="mx-2 mt-[-2px] flex-shrink text-lg text-muted-foreground">or</span>
+    <div className="flex-grow border-t border-border" />
   </div>
 );
 
@@ -79,11 +79,11 @@ const SectionWithHeadingAndCreateButton = ({
 }) => {
   return (
     <>
-      <p className="font-semibold text-gray-900">{heading}</p>
+      <p className="font-semibold text-foreground">{heading}</p>
       <div className="mt-5">
         <Link
           href="/resume-builder"
-          className="outline-theme-blue rounded-full bg-sky-500 px-6 pb-2 pt-1.5 text-base font-semibold text-white"
+          className="rounded-md bg-primary px-6 py-3 text-base font-semibold text-primary-foreground hover:bg-primary/90 transition-colors inline-block"
         >
           {buttonText}
         </Link>

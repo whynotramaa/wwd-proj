@@ -11,25 +11,22 @@ import { Heading, Link, Paragraph } from "components/documentation";
 import { ResumeTable } from "resume-parser/ResumeTable";
 import { FlexboxSpacer } from "components/FlexboxSpacer";
 import { ResumeParserAlgorithmArticle } from "resume-parser/ResumeParserAlgorithmArticle";
+import { ATSAnalysis } from "resume-parser/ATSAnalysis";
 
 const RESUME_EXAMPLES = [
   {
-    fileUrl: "resume-example/laverne-resume.pdf",
+    fileUrl: "resume-example/123CS0965_RamnathThakur.pdf",
     description: (
       <span>
-        Borrowed from University of La Verne Career Center -{" "}
-        <Link href="https://laverne.edu/careers/wp-content/uploads/sites/15/2010/12/Undergraduate-Student-Resume-Examples.pdf">
-          Link
-        </Link>
+        Ramnath Thakur Resume
       </span>
     ),
   },
   {
-    fileUrl: "resume-example/openresume-resume.pdf",
+    fileUrl: "resume-example/123CS0962_RIKIT_SAH_CV.pdf",
     description: (
       <span>
-        Created with OpenResume resume builder -{" "}
-        <Link href="/resume-builder">Link</Link>
+        Rikit Sah Template
       </span>
     ),
   },
@@ -52,17 +49,17 @@ export default function ResumeParser() {
   }, [fileUrl]);
 
   return (
-    <main className="h-full w-full overflow-hidden">
+    <main className="h-full w-full overflow-hidden bg-background">
       <div className="grid md:grid-cols-6">
-        <div className="flex justify-center px-2 md:col-span-3 md:h-[calc(100vh-var(--top-nav-bar-height))] md:justify-end">
+        <div className="flex justify-center px-2 md:col-span-3 md:h-[calc(100vh-var(--top-nav-bar-height))] md:justify-end bg-muted/30">
           <section className="mt-5 grow px-4 md:max-w-[600px] md:px-0">
-            <div className="aspect-h-[9.5] aspect-w-7">
+            <div className="aspect-h-[9.5] aspect-w-7 rounded-lg overflow-hidden border border-border">
               <iframe src={`${fileUrl}#navpanes=0`} className="h-full w-full" />
             </div>
           </section>
           <FlexboxSpacer maxWidth={45} className="hidden md:block" />
         </div>
-        <div className="flex px-6 text-gray-900 md:col-span-3 md:h-[calc(100vh-var(--top-nav-bar-height))] md:overflow-y-scroll">
+        <div className="flex px-6 text-foreground md:col-span-3 md:h-[calc(100vh-var(--top-nav-bar-height))] md:overflow-y-scroll border-l border-border">
           <FlexboxSpacer maxWidth={45} className="hidden md:block" />
           <section className="max-w-[600px] grow">
             <Heading className="text-primary !mt-4">
@@ -78,10 +75,10 @@ export default function ResumeParser() {
                 <article
                   key={idx}
                   className={cx(
-                    "flex-1 cursor-pointer rounded-md border-2 px-4 py-3 shadow-sm outline-none hover:bg-gray-50 focus:bg-gray-50",
+                    "flex-1 cursor-pointer rounded-lg border px-4 py-3 shadow-sm outline-none hover:bg-accent transition-colors",
                     example.fileUrl === fileUrl
-                      ? "border-blue-400"
-                      : "border-gray-300"
+                      ? "border-primary bg-accent"
+                      : "border-border"
                   )}
                   onClick={() => setFileUrl(example.fileUrl)}
                   onKeyDown={(e) => {
@@ -90,8 +87,8 @@ export default function ResumeParser() {
                   }}
                   tabIndex={0}
                 >
-                  <h1 className="font-semibold">Resume Example {idx + 1}</h1>
-                  <p className="mt-2 text-sm text-gray-500">
+                  <h1 className="font-semibold text-foreground">Resume Example {idx + 1}</h1>
+                  <p className="mt-2 text-sm text-muted-foreground">
                     {example.description}
                   </p>
                 </article>
@@ -118,11 +115,17 @@ export default function ResumeParser() {
               Resume Parsing Results
             </Heading>
             <ResumeTable resume={resume} />
-            <ResumeParserAlgorithmArticle
+            <br />
+            <hr />
+
+            {/* AI-Powered ATS Analysis */}
+            <ATSAnalysis resume={resume} />
+
+            {/* <ResumeParserAlgorithmArticle
               textItems={textItems}
               lines={lines}
               sections={sections}
-            />
+            /> */}
             <div className="pt-24" />
           </section>
         </div>

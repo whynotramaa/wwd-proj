@@ -6,6 +6,7 @@ import {
   DocumentSizeSelections,
   FontFamilySelectionsCSR,
   FontSizeSelections,
+  ResumeTemplateSelections,
 } from "components/ResumeForm/ThemeForm/Selection";
 import {
   changeSettings,
@@ -19,7 +20,7 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 export const ThemeForm = () => {
   const settings = useAppSelector(selectSettings);
-  const { fontSize, fontFamily, documentSize } = settings;
+  const { fontSize, fontFamily, documentSize, resumeTemplate } = settings;
   const themeColor = settings.themeColor || DEFAULT_THEME_COLOR;
   const dispatch = useAppDispatch();
 
@@ -31,8 +32,8 @@ export const ThemeForm = () => {
     <BaseForm>
       <div className="flex flex-col gap-6">
         <div className="flex items-center gap-2">
-          <Cog6ToothIcon className="h-6 w-6 text-gray-600" aria-hidden="true" />
-          <h1 className="text-lg font-semibold tracking-wide text-gray-900 ">
+          <Cog6ToothIcon className="h-6 w-6 text-muted-foreground" aria-hidden="true" />
+          <h1 className="text-lg font-semibold tracking-wide text-foreground">
             Resume Setting
           </h1>
         </div>
@@ -48,7 +49,7 @@ export const ThemeForm = () => {
           <div className="mt-2 flex flex-wrap gap-2">
             {THEME_COLORS.map((color, idx) => (
               <div
-                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-sm text-white"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-md border border-border text-sm font-bold hover:scale-110 transition-transform"
                 style={{ backgroundColor: color }}
                 key={idx}
                 onClick={() => handleSettingsChange("themeColor", color)}
@@ -91,6 +92,14 @@ export const ThemeForm = () => {
           <DocumentSizeSelections
             themeColor={themeColor}
             selectedDocumentSize={documentSize}
+            handleSettingsChange={handleSettingsChange}
+          />
+        </div>
+        <div>
+          <InputGroupWrapper label="Resume Template" />
+          <ResumeTemplateSelections
+            themeColor={themeColor}
+            selectedTemplate={resumeTemplate}
             handleSettingsChange={handleSettingsChange}
           />
         </div>

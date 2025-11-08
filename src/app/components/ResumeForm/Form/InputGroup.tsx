@@ -26,14 +26,14 @@ export const InputGroupWrapper = ({
   className?: string;
   children?: React.ReactNode;
 }) => (
-  <label className={`text-base font-medium text-gray-700 ${className}`}>
+  <label className={`text-sm font-medium text-foreground ${className}`}>
     {label}
     {children}
   </label>
 );
 
 export const INPUT_CLASS_NAME =
-  "mt-1 px-3 py-2 block w-full rounded-md border border-gray-300 text-gray-900 shadow-sm outline-none font-normal text-base";
+  "mt-1.5 px-3 py-2 block w-full rounded-md border border-input bg-background text-foreground shadow-sm outline-none font-normal text-sm transition-colors focus:border-ring focus:ring-1 focus:ring-ring hover:border-ring/50";
 
 export const Input = <K extends string>({
   name,
@@ -126,9 +126,8 @@ const BulletListTextareaGeneral = <T extends string>({
     <InputGroupWrapper label={label} className={wrapperClassName}>
       <ContentEditable
         contentEditable={true}
-        className={`${INPUT_CLASS_NAME} cursor-text [&>div]:list-item ${
-          showBulletPoints ? "pl-7" : "[&>div]:list-['']"
-        }`}
+        className={`${INPUT_CLASS_NAME} cursor-text [&>div]:list-item ${showBulletPoints ? "pl-7" : "[&>div]:list-['']"
+          }`}
         // Note: placeholder currently doesn't work
         placeholder={placeholder}
         onChange={(e) => {

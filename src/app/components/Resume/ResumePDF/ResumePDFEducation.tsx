@@ -40,6 +40,7 @@ export const ResumePDFEducation = ({
                     : spacing["1.5"],
                 }}
               >
+                
                 <ResumePDFText>{`${
                   gpa
                     ? `${degree} - ${Number(gpa) ? gpa + " GPA" : gpa}`

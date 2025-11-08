@@ -6,6 +6,9 @@ import { ResumePDFEducation } from "components/Resume/ResumePDF/ResumePDFEducati
 import { ResumePDFProject } from "components/Resume/ResumePDF/ResumePDFProject";
 import { ResumePDFSkills } from "components/Resume/ResumePDF/ResumePDFSkills";
 import { ResumePDFCustom } from "components/Resume/ResumePDF/ResumePDFCustom";
+import { ResumePDFCustomTemplate } from "components/Resume/ResumePDF/ResumePDFCustom2";
+import { ResumePDFText } from "components/Resume/ResumePDF/common";
+import { ResumePDFIcon } from "components/Resume/ResumePDF/common/ResumePDFIcon";
 import { DEFAULT_FONT_COLOR } from "lib/redux/settingsSlice";
 import type { Settings, ShowForm } from "lib/redux/settingsSlice";
 import type { Resume } from "lib/redux/types";
@@ -37,7 +40,7 @@ export const ResumePDF = ({
 }) => {
   const { profile, workExperiences, educations, projects, skills, custom } =
     resume;
-  const { name } = profile;
+  const { name, email, phone, url, location } = profile;
   const {
     fontFamily,
     fontSize,
@@ -46,9 +49,16 @@ export const ResumePDF = ({
     formToShow,
     formsOrder,
     showBulletPoints,
+    resumeTemplate,
   } = settings;
   const themeColor = settings.themeColor || DEFAULT_FONT_COLOR;
 
+  // If custom template is selected, use the custom template
+  if (resumeTemplate === "custom") {
+    return <ResumePDFCustomTemplate resume={resume} settings={settings} isPDF={isPDF} />;
+  }
+
+  // Default template
   const showFormsOrder = formsOrder.filter((form) => formToShow[form]);
 
   const formTypeToComponent: { [type in ShowForm]: () => JSX.Element } = {
@@ -94,41 +104,391 @@ export const ResumePDF = ({
 
   return (
     <>
-      <Document title={`${name} Resume`} author={name} producer={"OpenResume"}>
+      <Document title={`${name} Resume`} author={name} producer={"Project 0"}>
         <Page
           size={documentSize === "A4" ? "A4" : "LETTER"}
           style={{
             ...styles.flexCol,
-            color: DEFAULT_FONT_COLOR,
-            fontFamily,
+            color: "#4a4a4a",
+            fontFamily: "Inter",
             fontSize: fontSize + "pt",
+            padding: `${spacing[12]} ${spacing[12]}`,
           }}
         >
-          {Boolean(settings.themeColor) && (
-            <View
+          {/* Header Section - Name and Contact */}
+          <View style={{ marginBottom: spacing[5] }}>
+            {/* Name */}
+            <ResumePDFText
               style={{
-                width: spacing["full"],
-                height: spacing[3.5],
-                backgroundColor: themeColor,
+                fontSize: "28pt",
+                fontWeight: 700,
+                color: "#1a1a1a",
+                letterSpacing: "-0.5pt",
+                marginBottom: spacing[2]
               }}
-            />
-          )}
-          <View
-            style={{
-              ...styles.flexCol,
-              padding: `${spacing[0]} ${spacing[20]}`,
-            }}
-          >
-            <ResumePDFProfile
-              profile={profile}
-              themeColor={themeColor}
-              isPDF={isPDF}
-            />
-            {showFormsOrder.map((form) => {
-              const Component = formTypeToComponent[form];
-              return <Component key={form} />;
-            })}
+            >
+              {name}
+            </ResumePDFText>
+
+            {/* Email and Phone Row - Fixed alignment */}
+            <View style={{
+              ...styles.flexRow,
+              gap: spacing[4],
+              alignItems: "center",
+              marginBottom: spacing[2]
+            }}>
+              {email && (
+                <View style={{
+                  ...styles.flexRow,
+                  gap: spacing[1.5],
+                  alignItems: "center"
+                }}>
+                  <ResumePDFIcon type="email" isPDF={isPDF} />
+                  <ResumePDFText style={{
+                    fontSize: "9pt",
+                    color: "#6b6b6b",
+                    paddingTop: "1pt"
+                  }}>
+                    {email}
+                  </ResumePDFText>
+                </View>
+              )}
+              {phone && (
+                <View style={{
+                  ...styles.flexRow,
+                  gap: spacing[1.5],
+                  alignItems: "center"
+                }}>
+                  <ResumePDFIcon type="phone" isPDF={isPDF} />
+                  <ResumePDFText style={{
+                    fontSize: "9pt",
+                    color: "#6b6b6b",
+                    paddingTop: "1pt"
+                  }}>
+                    {phone}
+                  </ResumePDFText>
+                </View>
+              )}
+            </View>
+
+            {/* Objective - if exists */}
+            {profile.summary && (
+              <ResumePDFText style={{
+                fontSize: "9pt",
+                color: "#4a4a4a",
+                lineHeight: 1.4
+              }}>
+                {profile.summary.split('\n').slice(1).join(' ')}
+              </ResumePDFText>
+            )}
           </View>
+
+          {/* Horizontal Line */}
+          <View style={{
+            height: "1pt",
+            backgroundColor: "#d0d0d0",
+            marginBottom: spacing[5]
+          }} />
+
+          {/* Experience Section */}
+          {formToShow.workExperiences && workExperiences.length > 0 && (
+            <View style={{ marginBottom: spacing[5] }}>
+              <ResumePDFText bold={true} style={{
+                fontSize: "11pt",
+                fontWeight: 700,
+                color: "#1a1a1a",
+                marginBottom: spacing[3]
+              }}>
+                Experience
+              </ResumePDFText>
+              {workExperiences.map((exp, idx) => (
+                <View key={idx} style={{ marginBottom: idx < workExperiences.length - 1 ? spacing[3] : 0 }}>
+                  <View style={{ ...styles.flexRow, alignItems: "flex-start" }}>
+                    {/* Date Column - Fixed width for alignment */}
+                    <View style={{
+                      width: "85pt",
+                      minWidth: "85pt",
+                      marginRight: spacing[3],
+                      paddingTop: "1pt"
+                    }}>
+                      <ResumePDFText style={{
+                        fontSize: "8.5pt",
+                        color: "#6b6b6b",
+                        lineHeight: 1.3
+                      }}>
+                        {exp.date}
+                      </ResumePDFText>
+                    </View>
+
+                    {/* Job Details Column */}
+                    <View style={{ flex: 1 }}>
+                      <ResumePDFText style={{
+                        fontSize: "10pt",
+                        fontWeight: 600,
+                        color: "#1a1a1a",
+                        lineHeight: 1.3
+                      }}>
+                        {exp.jobTitle}
+                      </ResumePDFText>
+                      <ResumePDFText style={{
+                        fontSize: "9pt",
+                        color: "#6b6b6b",
+                        marginTop: spacing[0.5],
+                        lineHeight: 1.3
+                      }}>
+                        {exp.company}
+                      </ResumePDFText>
+                      {exp.descriptions && exp.descriptions.length > 0 && (
+                        <View style={{ marginTop: spacing[1.5] }}>
+                          {exp.descriptions.map((desc, i) => (
+                            <View key={i} style={{
+                              ...styles.flexRow,
+                              alignItems: "flex-start",
+                              marginBottom: i < exp.descriptions.length - 1 ? spacing[1] : 0
+                            }}>
+                              <ResumePDFText style={{
+                                fontSize: "9pt",
+                                color: "#4a4a4a",
+                                marginRight: spacing[2],
+                                lineHeight: 1.5,
+                                width: "8pt"
+                              }}>
+                                •
+                              </ResumePDFText>
+                              <ResumePDFText style={{
+                                fontSize: "9pt",
+                                color: "#4a4a4a",
+                                lineHeight: 1.5,
+                                flex: 1
+                              }}>
+                                {desc}
+                              </ResumePDFText>
+                            </View>
+                          ))}
+                        </View>
+                      )}
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* Education */}
+          {formToShow.educations && educations.length > 0 && (
+            <View style={{ marginBottom: spacing[5] }}>
+              <ResumePDFText bold={true} style={{
+                fontSize: "11pt",
+                fontWeight: 700,
+                color: "#1a1a1a",
+                marginBottom: spacing[3]
+              }}>
+                Education
+              </ResumePDFText>
+              {educations.map((edu, idx) => (
+                <View key={idx} style={{
+                  marginBottom: idx < educations.length - 1 ? spacing[2.5] : 0
+                }}>
+                  <View style={{ ...styles.flexRow, alignItems: "flex-start" }}>
+                    <View style={{
+                      width: "85pt",
+                      minWidth: "85pt",
+                      marginRight: spacing[3],
+                      paddingTop: "1pt"
+                    }}>
+                      <ResumePDFText style={{
+                        fontSize: "8.5pt",
+                        color: "#6b6b6b",
+                        lineHeight: 1.3
+                      }}>
+                        {edu.date}
+                      </ResumePDFText>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <ResumePDFText style={{
+                        fontSize: "9pt",
+                        color: "#6b6b6b",
+                        lineHeight: 1.3
+                      }}>
+                        {edu.school}
+                      </ResumePDFText>
+                      <ResumePDFText style={{
+                        fontSize: "10pt",
+                        fontWeight: 600,
+                        color: "#1a1a1a",
+                        marginTop: spacing[0.5],
+                        lineHeight: 1.3
+                      }}>
+                        {edu.degree}
+                      </ResumePDFText>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* Projects */}
+          {formToShow.projects && projects.length > 0 && (
+            <View style={{ marginBottom: spacing[5] }}>
+              <ResumePDFText bold={true} style={{
+                fontSize: "11pt",
+                fontWeight: 700,
+                color: "#1a1a1a",
+                marginBottom: spacing[3]
+              }}>
+                Projects
+              </ResumePDFText>
+              {projects.map((proj, idx) => (
+                <View key={idx} style={{
+                  marginBottom: idx < projects.length - 1 ? spacing[3] : 0
+                }}>
+                  <View style={{ ...styles.flexRow, alignItems: "flex-start" }}>
+                    <View style={{
+                      width: "85pt",
+                      minWidth: "85pt",
+                      marginRight: spacing[3],
+                      paddingTop: "1pt"
+                    }}>
+                      <ResumePDFText style={{
+                        fontSize: "8.5pt",
+                        color: "#6b6b6b",
+                        lineHeight: 1.3
+                      }}>
+                        {proj.date}
+                      </ResumePDFText>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <ResumePDFText style={{
+                        fontSize: "10pt",
+                        fontWeight: 600,
+                        color: "#1a1a1a",
+                        lineHeight: 1.3
+                      }}>
+                        {proj.project}
+                      </ResumePDFText>
+                      {proj.descriptions && proj.descriptions.length > 0 && (
+                        <View style={{ marginTop: spacing[1.5] }}>
+                          {proj.descriptions.map((desc, i) => (
+                            <View key={i} style={{
+                              ...styles.flexRow,
+                              alignItems: "flex-start",
+                              marginBottom: i < proj.descriptions.length - 1 ? spacing[1] : 0
+                            }}>
+                              <ResumePDFText style={{
+                                fontSize: "9pt",
+                                color: "#4a4a4a",
+                                marginRight: spacing[2],
+                                lineHeight: 1.5,
+                                width: "8pt"
+                              }}>
+                                •
+                              </ResumePDFText>
+                              <ResumePDFText style={{
+                                fontSize: "9pt",
+                                color: "#4a4a4a",
+                                lineHeight: 1.5,
+                                flex: 1
+                              }}>
+                                {desc}
+                              </ResumePDFText>
+                            </View>
+                          ))}
+                        </View>
+                      )}
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+          )}
+
+          {/* Skills */}
+          {formToShow.skills && (skills.descriptions.length > 0 || skills.featuredSkills.some(s => s.skill)) && (
+            <View style={{ marginBottom: spacing[5] }}>
+              <View style={{ ...styles.flexRow, alignItems: "flex-start" }}>
+                <ResumePDFText bold={true} style={{
+                  fontSize: "11pt",
+                  fontWeight: 700,
+                  color: "#1a1a1a",
+                  width: "85pt",
+                  minWidth: "85pt",
+                  marginRight: spacing[3],
+                  paddingTop: "1pt"
+                }}>
+                  Skills
+                </ResumePDFText>
+                <View style={{ flex: 1 }}>
+                  {skills.descriptions.map((skill, idx) => (
+                    <View key={idx} style={{
+                      ...styles.flexRow,
+                      alignItems: "flex-start",
+                      marginBottom: idx < skills.descriptions.length - 1 ? spacing[1] : 0
+                    }}>
+                      <ResumePDFText style={{
+                        fontSize: "9pt",
+                        color: "#4a4a4a",
+                        marginRight: spacing[2],
+                        lineHeight: 1.5,
+                        width: "8pt"
+                      }}>
+                        •
+                      </ResumePDFText>
+                      <ResumePDFText style={{
+                        fontSize: "9pt",
+                        color: "#4a4a4a",
+                        lineHeight: 1.5,
+                        flex: 1
+                      }}>
+                        {skill}
+                      </ResumePDFText>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            </View>
+          )}
+
+          {/* Custom Section */}
+          {formToShow.custom && custom.descriptions.length > 0 && (
+            <View style={{ marginBottom: spacing[5] }}>
+              <ResumePDFText bold={true} style={{
+                fontSize: "11pt",
+                fontWeight: 700,
+                color: "#1a1a1a",
+                marginBottom: spacing[3]
+              }}>
+                Additional
+              </ResumePDFText>
+              <View style={{ flex: 1 }}>
+                {custom.descriptions.map((item, idx) => (
+                  <View key={idx} style={{
+                    ...styles.flexRow,
+                    alignItems: "flex-start",
+                    marginBottom: idx < custom.descriptions.length - 1 ? spacing[1] : 0
+                  }}>
+                    <ResumePDFText style={{
+                      fontSize: "9pt",
+                      color: "#4a4a4a",
+                      marginRight: spacing[2],
+                      lineHeight: 1.5,
+                      width: "8pt"
+                    }}>
+                      •
+                    </ResumePDFText>
+                    <ResumePDFText style={{
+                      fontSize: "9pt",
+                      color: "#4a4a4a",
+                      lineHeight: 1.5,
+                      flex: 1
+                    }}>
+                      {item}
+                    </ResumePDFText>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
         </Page>
       </Document>
       <SuppressResumePDFErrorMessage />

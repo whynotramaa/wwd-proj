@@ -9,54 +9,65 @@ const FEATURES = [
   {
     src: featureFreeSrc,
     title: "Free Forever",
-    text: "OpenResume is created with the belief that everyone should have free and easy access to a modern professional resume design",
+    text: "Project 0 is built on the belief that everyone deserves free and easy access to professional resume design—no hidden costs, no premium tiers, no compromises.",
   },
   {
     src: featureUSSrc,
-    title: "U.S. Best Practices",
-    text: "OpenResume has built-in best practices for the U.S. job market and works well with top ATS platforms such as Greenhouse and Lever",
+    title: "India-Optimized",
+    text: "Project 0 follows best practices for the Indian job market and ensures compatibility with top ATS platforms used by Indian recruiters, including Naukri, LinkedIn Recruiter, and Workday.",
   },
   {
     src: featurePrivacySrc,
-    title: "Privacy Focus",
-    text: "OpenResume stores data locally in your browser so only you have access to your data and with complete control",
+    title: "Privacy First",
+    text: "Project 0 stores all data locally in your browser. No cloud uploads, no server storage, no data mining—just you and your resume.",
   },
   {
     src: featureOpenSourceSrc,
-    title: "Open-Source",
-    text: (
-      <>
-        OpenResume is an open-source project, and its source code can be viewed
-        by anyone on its{" "}
-        <Link href="https://github.com/xitanggg/open-resume">
-          GitHub repository
-        </Link>
-      </>
-    ),
+    title: "Open Source",
+    text: "Project 0 is an open-source initiative built with modern web technologies and transparent development practices, giving you full confidence in what happens under the hood.",
   },
 ];
 
 export const Features = () => {
   return (
-    <section className="py-16 lg:py-36">
-      <div className="mx-auto lg:max-w-4xl">
-        <dl className="grid grid-cols-1 justify-items-center gap-y-8 lg:grid-cols-2 lg:gap-x-6 lg:gap-y-16">
-          {FEATURES.map(({ src, title, text }) => (
-            <div className="px-2" key={title}>
-              <div className="relative w-96 self-center pl-16">
-                <dt className="text-2xl font-bold">
-                  <Image
-                    src={src}
-                    className="absolute left-0 top-1 h-12 w-12"
-                    alt="Feature icon"
-                  />
-                  {title}
-                </dt>
-                <dd className="mt-2">{text}</dd>
+    <section className="py-16 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Everything you need to build your resume
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground">
+            A comprehensive toolkit to help you create the perfect resume
+          </p>
+        </div>
+        <div className="mt-16">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {FEATURES.map(({ src, title, text }) => (
+              <div
+                key={title}
+                className="relative rounded-lg border border-border bg-card p-6 hover:border-primary/50 transition-colors"
+              >
+                <div>
+                  <span className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/10">
+                    <Image
+                      src={src}
+                      className="h-8 w-8"
+                      alt="Feature icon"
+                    />
+                  </span>
+                </div>
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {text}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </dl>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

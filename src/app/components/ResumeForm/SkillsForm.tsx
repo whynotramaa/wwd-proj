@@ -55,12 +55,12 @@ export const SkillsForm = () => {
             />
           </div>
         </div>
-        <div className="col-span-full mb-4 mt-6 border-t-2 border-dotted border-gray-200" />
+        <div className="col-span-full mb-4 mt-6 border-t border-border" />
         <InputGroupWrapper
           label="Featured Skills (Optional)"
           className="col-span-full"
         >
-          <p className="mt-2 text-sm font-normal text-gray-600">
+          <p className="mt-2 text-sm font-normal text-muted-foreground">
             Featured skills is optional to highlight top skills, with more
             circles mean higher proficiency.
           </p>

@@ -5,6 +5,7 @@ import { parseResumeFromPdf } from "lib/parse-resume-from-pdf";
 import {
   getHasUsedAppBefore,
   saveStateToLocalStorage,
+  loadStateFromLocalStorage,
 } from "lib/redux/local-storage";
 import { type ShowForm, initialSettings } from "lib/redux/settingsSlice";
 import { useRouter } from "next/navigation";
@@ -90,15 +91,34 @@ export const ResumeDropzone = ({
       }
     }
 
-    saveStateToLocalStorage({ resume, settings });
+    // Load existing state or use defaults
+    const existingState = loadStateFromLocalStorage();
+    saveStateToLocalStorage({
+      resume,
+      settings,
+      jdAnalyzer: existingState?.jdAnalyzer || {
+        resumeFile: null,
+        resumeText: "",
+        jdFile: null,
+        jdText: "",
+        analysisResult: null,
+      },
+      canvas: existingState?.canvas || {
+        components: [],
+        selectedComponentId: null,
+        canvasWidth: 595,
+        canvasHeight: 842,
+        isCanvasMode: false,
+      },
+    });
     router.push("/resume-builder");
   };
 
   return (
     <div
       className={cx(
-        "flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 ",
-        isHoveredOnDropzone && "border-sky-400",
+        "flex justify-center rounded-lg border-2 border-dashed border-border hover:border-primary/50 transition-colors",
+        isHoveredOnDropzone && "border-primary bg-accent/50",
         playgroundView ? "pb-6 pt-4" : "py-12",
         className
       )}
@@ -118,7 +138,7 @@ export const ResumeDropzone = ({
         {!playgroundView && (
           <Image
             src={addPdfSrc}
-            className="mx-auto h-14 w-14"
+            className="mx-auto h-14 w-14 opacity-60"
             alt="Add pdf"
             aria-hidden="true"
             priority
@@ -128,25 +148,25 @@ export const ResumeDropzone = ({
           <>
             <p
               className={cx(
-                "pt-3 text-gray-700",
+                "pt-3 text-foreground",
                 !playgroundView && "text-lg font-semibold"
               )}
             >
               Browse a pdf file or drop it here
             </p>
-            <p className="flex text-sm text-gray-500">
-              <LockClosedIcon className="mr-1 mt-1 h-3 w-3 text-gray-400" />
+            <p className="flex text-sm text-muted-foreground items-center justify-center">
+              <LockClosedIcon className="mr-1 mt-1 h-3 w-3" />
               File data is used locally and never leaves your browser
             </p>
           </>
         ) : (
           <div className="flex items-center justify-center gap-3 pt-3">
-            <div className="pl-7 font-semibold text-gray-900">
+            <div className="pl-7 font-semibold text-foreground">
               {file.name} - {getFileSizeString(file.size)}
             </div>
             <button
               type="button"
-              className="outline-theme-blue rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
               title="Remove file"
               onClick={onRemove}
             >
@@ -159,8 +179,8 @@ export const ResumeDropzone = ({
             <>
               <label
                 className={cx(
-                  "within-outline-theme-purple cursor-pointer rounded-full px-6 pb-2.5 pt-2 font-semibold shadow-sm",
-                  playgroundView ? "border" : "bg-primary"
+                  "cursor-pointer rounded-md px-6 py-2.5 font-semibold shadow-sm transition-colors inline-block",
+                  playgroundView ? "border border-border hover:bg-accent" : "bg-primary text-primary-foreground hover:bg-primary/90"
                 )}
               >
                 Browse file
@@ -172,7 +192,7 @@ export const ResumeDropzone = ({
                 />
               </label>
               {hasNonPdfFile && (
-                <p className="mt-6 text-red-400">Only pdf file is supported</p>
+                <p className="mt-6 text-destructive">Only pdf file is supported</p>
               )}
             </>
           ) : (
@@ -186,7 +206,7 @@ export const ResumeDropzone = ({
                   Import and Continue <span aria-hidden="true">→</span>
                 </button>
               )}
-              <p className={cx(" text-gray-500", !playgroundView && "mt-6")}>
+              <p className={cx("text-muted-foreground", !playgroundView && "mt-6")}>
                 Note: {!playgroundView ? "Import" : "Parser"} works best on
                 single column resume
               </p>

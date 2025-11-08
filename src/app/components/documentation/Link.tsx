@@ -14,7 +14,7 @@ export const Link = ({
       href={href}
       target="_blank"
       className={cx(
-        "underline underline-offset-2 hover:decoration-2",
+        "text-primary underline underline-offset-2 hover:text-primary/80 hover:decoration-2 transition-colors",
         className
       )}
     >

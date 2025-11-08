@@ -1,34 +1,147 @@
-@import url("/fonts/fonts.css");
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .btn-primary {
-    @apply bg-primary outline-theme-purple inline-block rounded-full px-6 py-2 font-semibold shadow-sm;
+@layer base {
+  :root {
+    --background: 214 18% 8%;
+    --foreground: 214 18% 92%;
+    --card: 214 18% 21%;
+    --card-foreground: 214 18% 84%;
+    --popover: 214 18% 28%;
+    --popover-foreground: 214 18% 92%;
+    --primary: 157 10% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 214 18% 22%;
+    --secondary-foreground: 214 18% 92%;
+    --muted: 214 18% 30%;
+    --muted-foreground: 214 18% 72%;
+    --accent: 214 18% 28%;
+    --accent-foreground: 186 40% 87%;
+    --destructive: 345 72% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 18% 36%;
+    --input: 214 18% 36%;
+    --ring: 357 70% 52%;
+    --chart-1: 182 27% 69%;
+    --chart-2: 352 54% 64%;
+    --chart-3: 186 19% 56%;
+    --chart-4: 191 19% 51%;
+    --chart-5: 197 19% 46%;
+    --sidebar: 214 18% 30%;
+    --sidebar-foreground: 214 18% 92%;
+    --sidebar-primary: 357 70% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 202 33% 35%;
+    --sidebar-accent-foreground: 186 40% 87%;
+    --sidebar-border: 214 18% 36%;
+    --sidebar-ring: 357 70% 52%;
+    --radius: 0.5rem;
+
+    /* Keep the below variable names in sync with CSS_VARIABLES in globals-css.ts */
+    --top-nav-bar-height: 3.5rem;
+    --resume-control-bar-height: 3rem;
+    --resume-padding: 1.75rem;
   }
-  .text-primary {
-    @apply bg-gradient-to-r from-[color:var(--theme-purple)] to-[color:var(--theme-blue)] bg-clip-text text-transparent !important;
-  }
-  .bg-primary {
-    @apply bg-gradient-to-r from-[color:var(--theme-purple)] to-[color:var(--theme-blue)] text-white;
-  }
-  .outline-theme-purple {
-    @apply hover:opacity-80 hover:outline-[color:var(--theme-purple)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--theme-purple)];
-  }
-  .outline-theme-blue {
-    @apply hover:opacity-80 hover:outline-[color:var(--theme-blue)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--theme-blue)];
-  }
-  .within-outline-theme-purple {
-    @apply focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[color:var(--theme-purple)] hover:opacity-80 hover:outline-[color:var(--theme-purple)];
+
+  .dark {
+    --background: 214 18% 8%;
+    --foreground: 214 18% 92%;
+    --card: 214 12% 10%;
+    --card-foreground: 214 18% 84%;
+    --popover: 214 18% 28%;
+    --popover-foreground: 214 18% 92%;
+    --primary: 157 60% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 214 18% 22%;
+    --secondary-foreground: 214 18% 92%;
+    --muted: 214 18% 30%;
+    --muted-foreground: 214 18% 72%;
+    --accent: 214 18% 28%;
+    --accent-foreground: 186 40% 87%;
+    --destructive: 345 72% 58%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 18% 16%;
+    --input: 214 18% 16%;
+    --ring: 57 20% 52%;
+    --chart-1: 182 27% 69%;
+    --chart-2: 352 54% 64%;
+    --chart-3: 186 19% 56%;
+    --chart-4: 191 19% 51%;
+    --chart-5: 197 19% 46%;
+    --sidebar: 214 18% 30%;
+    --sidebar-foreground: 214 18% 92%;
+    --sidebar-primary: 357 70% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 202 33% 35%;
+    --sidebar-accent-foreground: 186 40% 87%;
+    --sidebar-border: 214 18% 36%;
+    --sidebar-ring: 357 70% 52%;
   }
 }
 
-:root {
-  --theme-purple: #5d52d9;
-  --theme-blue: #4fc5eb;
-  /* Keep the below variable names in sync with CSS_VARIABLES in globals-css.ts */
-  --top-nav-bar-height: 3.5rem;
-  --resume-control-bar-height: 3rem;
-  --resume-padding: 1.5rem;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Hide scrollbars but maintain scroll functionality */
+  * {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+  }
+
+  .text-primary {
+    @apply text-foreground;
+  }
+
+  .bg-primary {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .outline-theme-purple {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background;
+  }
+
+  .within-outline-theme-purple {
+    @apply focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer utilities {
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.8s ease-out;
+  }
 }
