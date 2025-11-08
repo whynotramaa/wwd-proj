@@ -18,11 +18,14 @@ export async function POST(request: NextRequest) {
 
         const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
         if (!apiKey) {
+            console.error('GOOGLE_GENERATIVE_AI_API_KEY is not set');
             return NextResponse.json(
-                { error: 'API key not configured' },
+                { error: 'API key not configured. Please check environment variables.' },
                 { status: 500 }
             );
         }
+
+        console.log('API Key found, length:', apiKey.length);
 
         // Format resume data for analysis
         const resumeText = formatResumeForAnalysis(resume);
@@ -89,8 +92,12 @@ Provide your analysis in the following JSON format:
         return NextResponse.json({ analysis });
     } catch (error) {
         console.error('Error analyzing resume:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         return NextResponse.json(
-            { error: 'Failed to analyze resume' },
+            {
+                error: 'Failed to analyze resume',
+                details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+            },
             { status: 500 }
         );
     }
