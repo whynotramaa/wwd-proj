@@ -4,9 +4,9 @@ import { Analytics } from "@vercel/analytics/react";
 import { cn } from "@/lib/utils";
 
 export const metadata = {
-  title: "OpenResume - Free Resume Builder for Indian Job Market",
+  title: "Project 0 - Free Resume Builder for Indian Job Market",
   description:
-    "OpenResume is a free, open-source, and powerful resume builder designed for the Indian job market. Create ATS-friendly professional resumes in minutes. Test your resume's ATS readability with our built-in parser.",
+    "Project 0 is a free, open-source, and powerful resume builder designed for the Indian job market. Create ATS-friendly professional resumes in minutes. Test your resume's ATS readability with our built-in parser.",
 };
 
 export default function RootLayout({
