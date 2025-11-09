@@ -1,8 +1,9 @@
 import "globals.css";
 import { TopNavBar } from "components/TopNavBar";
-import { Analytics } from "@vercel/analytics/react";
+// import { Analytics } from "@vercel/analytics/react";
 import { cn } from "@/lib/utils";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/next"
 export const metadata = {
   title: "Project 0 - Free Resume Builder for Indian Job Market",
   description:
